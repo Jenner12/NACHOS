@@ -1,0 +1,16 @@
+//TODO:
+* TLB -> cash de 3 posiciones de T.E.
+* TLBMiss -> si está en IPT, reemplazar con LRU en TLB y retornar (intentar ejecutar de nuevo la instrucción que provocó el TLBMiss)
+* PAGEFAULT -> Hay que buscar en swapFile, y si no está en swap File es un error que no se puede manejar antes de Lazy Loading;
+	* Si si está, verificar si hay espacio en RAM para escribir en ella la pagina que provocó el pageFault, si si habia espacio entonces escribirla en RAM (la paǵina) y también en la IPT (la TE).
+	* Si no hay espacio en la RAM aplicar politica de reemplazo (las candidatas 
+	son las que su Dirty = false (se busca en la IPT))
+		* Cuando ya se modifico la IPT y la RAM, retornar del handlerPageFault() y por lo tanto del TLBMiss
+
+	* Si todas las paginas tienen Dirty = true??? 
+		* Usar politica de reemplazo para seleccionar una, cambiar esta pagina en RAM y modificarla igualmente en el swapFile, cambiar la pagina en la IPT para que quede tal como en la RAM y retornar del PageFault
+
+* La carga de paginas a swapfile se realiza en el loader:
+	*el loader carga todas las paginas que pueda en RAM, y las que ya no pueda debido a memoria limitada, entonces estas se agregan al swapfile y las que si se pudieron cargar se les pone su dirty en true;
+	
+	*todas las paginas del proceso se escribirán también en el swapfile pero, en la IPT (RAM) tendrán Dirty = false
